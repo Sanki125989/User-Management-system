@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+  <head>
+    <meta charset="ISO-8859-1" />
+    <title>User Management System</title>
+    <link
+      rel="stylesheet"
+      href="https://use.fontawesome.com/releases/v5.11.2/css/all.css"
+    />
+    <link
+      rel="stylesheet"
+      href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"
+      integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO"
+      crossorigin="anonymous"
+    />
+
+    <!-- Google Fonts -->
+    <link
+      href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap"
+      rel="stylesheet"
+    />
+    <!-- MDB -->
+    <link
+      href="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/6.2.0/mdb.min.css"
+      rel="stylesheet"
+    />
+    <!-- jQuery CDN -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+    <!-- DataTables CDN CSS -->
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="https://cdn.datatables.net/1.11.4/css/dataTables.bootstrap4.min.css"
+    />
+
+    <!-- DataTables CDN JS -->
+    <script
+      type="text/javascript"
+      src="https://cdn.datatables.net/1.11.4/js/jquery.dataTables.min.js"
+    ></script>
+    <script
+      type="text/javascript"
+      src="https://cdn.datatables.net/1.11.4/js/dataTables.bootstrap4.min.js"
+    ></script>
+    <script type="text/javascript" th:src="@{/js/createuser.js}"></script>
+    
+  </head>
+  <body>
+    <div class="row jumbotron" style="padding: 0rem 2rem">
+      <h1 class="display-4 text-center mb-4">List of Inactive Users</h1>
+    </div>
+            <div th:if="${session.msg}" id="messageRemove">
+      <h5 class="text-center text-danger" th:text="${session.msg}"></h5>
+      <th:block th:text="${#session.removeAttribute('msg')}"></th:block>
+    </div>
+    <div class="jumbotron" th:if="${#lists.isEmpty(inactive)}">
+      <h1 style="text-align: center">No inactive users as of now</h1>
+    </div>
+
+    <table
+      th:if="${not #lists.isEmpty(inactive)}"
+      border="1"
+      class="table table-striped table-responsive-md"
+      id="dtBasicExample"
+    >
+      <thead>
+        <tr>
+          <th>First Name</th>
+          <th>Last Name</th>
+          <th>Email</th>
+          <th>Date of Birth</th>
+          <th>Mobile Number</th>
+          <th>Restore</th>
+          <th>Action</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr th:each="user : ${inactive}">
+          <td th:text="${user.firstName}"></td>
+          <td th:text="${user.lastName}"></td>
+          <td th:text="${user.email}"></td>
+          <td th:text="${#temporals.format(user.DOB, 'dd/MM/yyyy')}"></td>
+          <td th:text="${user.mobileno}"></td>
+           <td>
+            <a
+              th:href="@{/restorefromdelete/{id}(id=${user.id})}"
+              class="btn btn-primary"
+              ><i class="fas fa-trash-restore"></i>Restore</a
+            >
+          </td>
+          <td>
+            <a
+              th:href="@{/deleteUser/{id}(id=${user.id})}"
+              class="btn btn-danger"
+              ><i class="fa fa-trash"></i>Delete</a
+            >
+          </td>
+        </tr>
+      </tbody>
+    </table>
+    <a style="margin-left: 550px" th:href="@{/}">
+      <i class="fas fa-chevron-circle-left"></i> Back to User List</a
+    >
+  </body>
+</html>

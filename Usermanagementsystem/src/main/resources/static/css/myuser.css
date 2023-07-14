@@ -1,0 +1,26 @@
+label.required::after {
+  content: "*";
+  margin-right: 4px;
+  color: red;
+}
+
+.col-md-6.border.border-primary {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin-left:353px
+}
+
+.wrong .fa-check {
+  display: none;
+}
+
+.good .fa-times {
+  display: none;
+}
+
+.valid-feedback,
+.invalid-feedback {
+  margin-left: calc(2em + 0.25rem + 1.5rem);
+}
